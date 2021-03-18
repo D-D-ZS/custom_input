@@ -20,6 +20,12 @@ def test_get_users_by_tenantid():
 
 
 def test_get_user_info_by_id():
-    res = xy_conn.get_user_info_by_id("1356436881656082434,1367313166642790402")
+    res = xy_conn.get_user_info_by_id("1356436881656082434,1367313166642790402,1")
+    print(res)
+    assert res["success"] is True
+
+
+def test_get_platform_users():
+    res = xy_conn.get_platform_users()
     print(res)
     assert res["success"] is True

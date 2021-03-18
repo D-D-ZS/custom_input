@@ -12,11 +12,40 @@ class UserAPI(XY_API):
 
     def get_tenants(self):
         # todo 获取租户列表
-        return self.get("/tenants/allTenant").json()
+        res = self.get("/tenants/allTenant").json()
+        # 添加平台
+        res["data"].insert(0,
+
+            {
+                "id": "0",
+                "name": "平台",
+                "tenantAdminList": "",
+                "code": "",
+                "deptSecurityOwner": "",
+                "compSecurityOwner": "",
+                "parentOrgId": "",
+                "parentOrg": "",
+                "orgId": "",
+                "description": "",
+                "status": ""
+            }
+        )
+        return res
 
     def get_users_by_tenantid(self, tenantid):
         # todo 根据租户ID获取，租户下用户
+        if tenantid == 0:
+            return self.get_platform_users()
         return self.get(f"/tenants/{tenantid}/users").json()
 
     def get_user_info_by_id(self, userid):
         return self.get(f"/users/selectByIds?ids={userid}").json()
+
+    def get_platform_users(self):
+        # todo 返回平台用户列表
+        res = self.get(f"/users?queryStr=&current=1&size=10000&type=2").json()
+        data = []
+        for record in res["data"]["records"]:
+            data.append(record)
+        res["data"] = data
+        return res
