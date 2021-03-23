@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # !-*- coding:utf-8 -*-
 # Create  : 2021/3/8 4:40 下午
+import logging
 
 from xy.xy_api import XY_API
 
@@ -16,25 +17,27 @@ class UserAPI(XY_API):
         # 添加平台
         res["data"].insert(0,
 
-            {
-                "id": "0",
-                "name": "平台",
-                "tenantAdminList": "",
-                "code": "",
-                "deptSecurityOwner": "",
-                "compSecurityOwner": "",
-                "parentOrgId": "",
-                "parentOrg": "",
-                "orgId": "",
-                "description": "",
-                "status": ""
-            }
-        )
+                           {
+                               "id": "0",
+                               "name": "平台",
+                               "tenantAdminList": "",
+                               "code": "",
+                               "deptSecurityOwner": "",
+                               "compSecurityOwner": "",
+                               "parentOrgId": "",
+                               "parentOrg": "",
+                               "orgId": "",
+                               "description": "",
+                               "status": ""
+                           }
+                           )
         return res
 
     def get_users_by_tenantid(self, tenantid):
         # todo 根据租户ID获取，租户下用户
-        if tenantid == 0:
+        logging.info(tenantid)
+        if int(tenantid) == 0:
+            logging.info("平台用户获取")
             return self.get_platform_users()
         return self.get(f"/tenants/{tenantid}/users").json()
 
@@ -44,6 +47,9 @@ class UserAPI(XY_API):
     def get_platform_users(self):
         # todo 返回平台用户列表
         res = self.get(f"/users?queryStr=&current=1&size=10000&type=2").json()
+        logging.info(res.keys())
+        if res["success"] is False:
+            raise Exception(res["msg"])
         data = []
         for record in res["data"]["records"]:
             data.append(record)

@@ -36,14 +36,18 @@ class SrcTrigger(OnDemandTriggerAction):
             # 前端传过来的字段在params中
             params = events[0].params
             logging.info(params)
-            logging.info(events[0].additionContents[0].__dict__)
+            length = len(events[0].additionContents)
+            if length > 0:
+                logging.info(events[0].additionContents[0].__dict__)
             # 附加内容拆到 values 中，把
-            additionContents = []
-            for i in events[0].additionContents:
-                values[i.name] = i.contents
-                logging.info(f"name: {i.name}, contents: {i.contents}")
-                additionContents.append({i.name: i.contents})
-            values["additionContents"] = json.dumps(additionContents)
+                additionContents = []
+                for i in events[0].additionContents:
+                    values[i.name] = i.contents
+                    logging.info(f"name: {i.name}, contents: {i.contents}")
+                    additionContents.append({i.name: i.contents})
+                values["additionContents"] = json.dumps(additionContents)
+            else:
+                values["additionContents"] = ""
             user_ids = ",".join(params["userid"])
             self.notice_src(user_ids, params["methods"], **values)
         content= "from hello trigger: eventLength={0}, event_name={1}, " \

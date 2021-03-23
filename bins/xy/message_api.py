@@ -11,13 +11,13 @@ import mimetypes
 
 class MessageApi(XY_API):
     def __init__(self):
-        self.url = "http://127.0.0.1:8080/src-messgae-svc"
+        self.url = "http://127.0.0.1:8080/src-message-svc"
         super().__init__(self.url)
 
     def get_templates(self):
         # todo 获取租户下模板
         res = self.get("/template?current=1&size=100000").json()
-        print(res.keys())
+        logging.info(res.keys())
         data = []
         for record in res["data"]["records"]:
             del record["content"]
