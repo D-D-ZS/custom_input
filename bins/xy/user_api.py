@@ -47,9 +47,9 @@ class UserAPI(XY_API):
     def get_platform_users(self):
         # todo 返回平台用户列表
         res = self.get(f"/users?queryStr=&current=1&size=10000&type=2").json()
-        logging.info(res.keys())
-        if res["success"] is False:
-            raise Exception(res["msg"])
+        if int(res["code"]) != 0:
+            logging.info("请求异常")
+            return res["msg"]
         data = []
         for record in res["data"]["records"]:
             data.append(record)

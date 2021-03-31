@@ -50,7 +50,10 @@ class Message(OnDemandApi):
             res = xy_path[path]()
         else:
             res = xy_path[path](**params)
-        return Response(200, res).to_string()
+        if int(res["code"]) == 0:
+            return Response(200, res).to_string()
+        else:
+            return Response(500, res).to_string()
 
 
 if __name__ == '__main__':

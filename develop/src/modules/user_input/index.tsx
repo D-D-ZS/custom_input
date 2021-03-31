@@ -46,7 +46,7 @@ export default class UserInput extends BaseInput {
     if (this.tenanatid) {
       try {
         const data: any = await fetch(
-          `${appEnv.basepath}/custom/v1/src_trigger/tenants/users?tenantid=${this.tenanatid} `
+          `${appEnv.basepath}/pandora/custom/v1/src_trigger/tenants/users?tenantid=${this.tenanatid} `
         )
         const options = get(data, 'data') || []
         this.setOptions(

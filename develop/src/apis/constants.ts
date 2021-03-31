@@ -1,3 +1,3 @@
 import { appEnv } from '@qn-pandora/app-sdk'
 
-export const API_PREFIX = `${appEnv.basepath}/custom/v1`
+export const API_PREFIX = `${appEnv.basepath}/pandora/custom/v1`

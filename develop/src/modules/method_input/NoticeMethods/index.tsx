@@ -126,7 +126,7 @@ export default class NoticeMethods extends React.Component<IMethondProps, any> {
     const email = (await this.listEmailTemplates()) || []
     email.map((item: any) => {
       const { id, name } = item
-      res[ENotifyMode.SMS][toString(id)] = name
+      res[ENotifyMode.EMAIL][toString(id)] = name
     })
     this.setTemplateOptions(res)
     this.setTemplates({ [ENotifyMode.SMS]: sms, [ENotifyMode.EMAIL]: email })
